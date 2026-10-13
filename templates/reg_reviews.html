@@ -1,49 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Snack Passport - Register Reviews</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% extends "index.html" %}
+{% block section %}
 
-<body>
+<h2>Register Reviews</h2>
 
-    <nav>
-        <a href="/">Snack Passport</a>
-        <a href="/list">List</a>
-        <a href="/review">Review</a>
-        <a href="/reg_items">Register Items</a>
-        <a href="/reg_reviews">Register Reviews</a>
-    </nav>
+<form action="/submit_review" method="POST">
 
-    <form action="/submit_review" method="POST">
+    <label>Product name:</label>
+    <input type="text" name="product_name" required>
+    <br>
 
-        <label>Product name:</label>
-        <input type="text" name="product_name" required>
-        <br>
+    <label>Reviewer ID:</label>
+    <input type="text" name="reviewer_id" required>
+    <br>
 
-        <label>Reviewer ID:</label>
-        <input type="text" name="reviewer_id" required>
-        <br>
+    <label>Rating:</label>
+    <select name="rating">
+        <option value="5">5</option>
+        <option value="4">4</option>
+        <option value="3">3</option>
+        <option value="2">2</option>
+        <option value="1">1</option>
+    </select>
+    <br>
 
-        <label>Rating:</label>
-        <select name="rating">
-            <option value="5">5</option>
-            <option value="4">4</option>
-            <option value="3">3</option>
-            <option value="2">2</option>
-            <option value="1">1</option>
-        </select>
-        <br>
+    <label>Review:</label>
+    <br>
+    <textarea name="review" rows="4" cols="30" required></textarea>
+    <br>
 
-        <label>Review:</label>
-        <br>
-        <textarea name="review" rows="4" cols="30" required></textarea>
-        <br>
+    <input type="submit" value="Submit!">
 
-        <input type="submit" value="Submit!">
+</form>
 
-    </form>
-
-</body>
-</html>
+{% endblock section %}
