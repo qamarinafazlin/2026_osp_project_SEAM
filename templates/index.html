@@ -1,35 +1,31 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>EwhaMarket - Home</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0;}
-        body { background-color: #f9f9f9; color: #333; }
-        .navbar { background-color: #1a252f; color: white; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
-        .navbar ul { list-style: none; display: flex; gap: 25px; }
-        .navbar ul li a { color: white; text-decoration: none; font-size: 1rem; }
-        .navbar ul li a:hover, .navbar ul li a.active { color: #1abc9c; }
-        .container { max-width: 900px; margin: 30px auto; background: white; padding: 30px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; color: #2c3e50; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EwhaMarket</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <nav class="navbar">
-        <div>EwhaMarket</div>
-        <ul>
-            <li><a href="list.html">List</a></li>
-            <li><a href="review.html">Review</a></li>
-            <li><a href="reg_items.html">Register Items</a></li>
-            <li><a href="reg_reviews.html">Register Reviews</a></li>
-            <li><a href="result.html">Result</a></li>
-            <li><a href="reviews.html">Reviews</a></li>
+        <div class="navbar__logo">
+            <a href="/">EwhaMarket</a>
+        </div>
+        <ul class="navbar__menu">
+            <li><a href="/list">List</a></li>
+            <li><a href="/review">Review</a></li>
+            <li><a href="/reg_items">Register Items</a></li>
+            <li><a href="/reg_reviews">Register Reviews</a></li>
         </ul>
     </nav>
 
-    <div class="container">
+    <section class="container">
+        {% block section %}
         <h2>Welcome to EwhaMarket</h2>
         <p>Use the navigation links above to view products, reviews, or register items and reviews.</p>
-    </div>
+        {% endblock section %}
+    </section>
 
 </body>
 </html>
