@@ -1,1 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Snack Passport - Register Items</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav>
+        <a href="/">Snack Passport</a>
+        <a href="/list">List</a>
+        <a href="/review">Review</a>
+        <a href="/reg_items">Register Items</a>
+        <a href="/reg_reviews">Register Reviews</a>
+    </nav>
+
+    <form action="/result" method="POST" enctype="multipart/form-data">
+
+        <label>Product name:</label>
+        <input type="text" name="product_name" required>
+        <br>
+
+        <label>Seller ID:</label>
+        <input type="text" name="seller_id" required>
+        <br>
+
+        <label>Address:</label>
+        <input type="text" name="address" required>
+        <br>
+
+        <label>Price:</label>
+        <input type="number" name="price" required>
+        <br>
+
+        <label>Status?</label>
+        <br>
+        <select name="status">
+            <option value="Likely New">Likely New</option>
+            <option value="Used">Used</option>
+            <option value="Sold Out">Sold Out</option>
+        </select>
+        <br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+        <br>
+
+        <label>Representative Image upload :</label>
+        <input type="file" name="picture" accept="image/*" required>
+        <br>
+
+        <input type="submit" value="Submit!">
+
+    </form>
+
+</body>
+</html>
 
