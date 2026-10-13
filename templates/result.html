@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block section %}
+
+<h1>Product Registration Result</h1>
+
+<h2>Submitted Product Information</h2>
+
+<p>
+    <strong>Product Name:</strong>
+    {{ data.get('product_name', '') }}
+</p>
+
+<p>
+    <strong>Seller ID:</strong>
+    {{ data.get('seller_id', '') }}
+</p>
+
+<p>
+    <strong>Price:</strong>
+    {{ data.get('price', '') }} KRW
+</p>
+
+<p>
+    <strong>Address:</strong>
+    {{ data.get('address', '') }}
+</p>
+
+<p>
+    <strong>Status:</strong>
+    {{ data.get('status', '') }}
+</p>
+
+<p>
+    <strong>Email:</strong>
+    {{ data.get('email', '') }}
+</p>
+
+{% if img_path %}
+    <h2>Product Picture</h2>
+    <img
+        src="{{ url_for('static', filename=img_path) }}"
+        alt="Product picture"
+        width="300"
+    >
+{% endif %}
+
+<p><a href="/reg_items">Register Another Product</a></p>
+
+{% endblock section %}
