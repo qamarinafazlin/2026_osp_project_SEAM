@@ -1,0 +1,12 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background-color: #f9f9f9; color: #333; font-family: sans-serif; }
+
+.navbar { background-color: #1a252f; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
+.navbar__logo a { color: white; font-size: 1.3rem; font-weight: bold; text-decoration: none; }
+.navbar__menu { list-style: none; display: flex; gap: 25px; }
+.navbar__menu a { color: white; text-decoration: none; font-size: 1rem; }
+.navbar__menu a:hover { color: #1abc9c; }
+
+.container { max-width: 900px; margin: 30px auto; background: white; padding: 30px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; color: #2c3e50; }
+form input, form select, form textarea { margin: 6px 0 12px; padding: 6px; }
