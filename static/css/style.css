@@ -10,3 +10,4 @@ body { background-color: #f9f9f9; color: #333; font-family: sans-serif; }
 .container { max-width: 900px; margin: 30px auto; background: white; padding: 30px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; color: #2c3e50; }
 form input, form select, form textarea { margin: 6px 0 12px; padding: 6px; }
+.navbar__menu a.active { color: #1abc9c; font-weight: bold; }
