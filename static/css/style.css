@@ -11,3 +11,8 @@ body { background-color: #f9f9f9; color: #333; font-family: sans-serif; }
 h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; color: #2c3e50; }
 form input, form select, form textarea { margin: 6px 0 12px; padding: 6px; }
 .navbar__menu a.active { color: #1abc9c; font-weight: bold; }
+
+.auth-form { max-width: 400px; }
+.auth-form input { display: block; width: 100%; padding: 10px; margin: 6px 0 14px; }
+.auth-form button { padding: 10px 20px; cursor: pointer; }
+.message { color: #1abc9c; font-weight: bold; margin-bottom: 12px; }

@@ -48,5 +48,21 @@ def reg_review_submit():
     return render_template("review.html")
 
 
+# temporary user storage (resets when the server restarts; replace with a DB later)
+users = {}
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        user_id = request.form["id"]
+        if user_id in users:
+            return render_template("signup.html", message="That ID is already taken.")
+        users[user_id] = {
+            "password": request.form["password"],
+            "nickname": request.form["nickname"],
+        }
+        return render_template("signup.html", message="Account created! You can log in now.")
+    return render_template("signup.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
