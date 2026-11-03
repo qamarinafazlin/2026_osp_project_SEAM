@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - EwhaMarket</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        nav {
+            background: #252d3d;
+            padding: 20px;
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <strong>EwhaMarket</strong>
+        <a href="/">Home</a>
+    </nav>
+
+    <div class="container">
+
+        <h2>Create Account</h2>
+
+        <form action="/signup" method="POST">
+
+            <label>ID:</label>
+            <input type="text" name="id" required>
+
+            <label>Password:</label>
+            <input type="password" name="password" required>
+
+            <label>Nickname:</label>
+            <input type="text" name="nickname" required>
+
+            <button type="submit">Create</button>
+
+        </form>
+
+        <p>Already have an account?
+            <a href="/login">Login here</a>
+        </p>
+
+    </div>
+
+</body>
+
+</html>
