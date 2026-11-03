@@ -64,5 +64,16 @@ def signup():
         return render_template("signup.html", message="Account created! You can log in now.")
     return render_template("signup.html")
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        user_id = request.form["id"]
+        password = request.form["password"]
+        user = users.get(user_id)
+        if user is None or user["password"] != password:
+            return render_template("login.html", message="Wrong ID or password.")
+        return render_template("login.html", message="Welcome, " + user["nickname"] + "!")
+    return render_template("login.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
