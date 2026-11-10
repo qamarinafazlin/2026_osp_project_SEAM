@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from database import DBhandler
 import hashlib
 import os
@@ -59,17 +60,34 @@ def signup():
         return render_template("signup.html", message="User ID already exists!")
     return render_template("signup.html")
 
-
-# login -> checks Firebase
+# Login -> checks Firebase
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        pw_hash = hashlib.sha256(request.form["password"].encode("utf-8")).hexdigest()
-        user = DB.find_user(request.form["id"], pw_hash)
+        user_id = request.form["id"]
+        password = request.form["password"]
+
+        pw_hash = hashlib.sha256(
+            password.encode("utf-8")
+        ).hexdigest()
+
+        user = DB.find_user(user_id, pw_hash)
+
         if user is None:
-            return render_template("login.html", message="Wrong ID or password.")
-        return render_template("login.html", message="Welcome, " + user["nickname"] + "!")
+            flash("Wrong ID or PW!")
+            return redirect(url_for("login"))
+
+        session["id"] = user_id
+        return redirect(url_for("index"))
+
     return render_template("login.html")
+
+
+# Logout
+@app.route("/logout")
+def logout():
+    session.pop("id", None)
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
