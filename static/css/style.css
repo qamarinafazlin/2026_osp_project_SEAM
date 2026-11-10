@@ -16,3 +16,13 @@ form input, form select, form textarea { margin: 6px 0 12px; padding: 6px; }
 .auth-form input { display: block; width: 100%; padding: 10px; margin: 6px 0 14px; }
 .auth-form button { padding: 10px 20px; cursor: pointer; }
 .message { color: #1abc9c; font-weight: bold; margin-bottom: 12px; }
+
+.item-table { border-collapse: separate; border-spacing: 16px; }
+.item-card { width: 180px; text-align: center; cursor: pointer; vertical-align: top; }
+.item-card img { width: 160px; height: 160px; object-fit: cover; border-radius: 6px; }
+.item-card:hover img { opacity: 0.8; }
+.item-name { font-weight: bold; margin-top: 6px; }
+.item-price { color: #666; }
+.pagination { margin-top: 20px; display: flex; gap: 10px; }
+.detail { display: flex; gap: 30px; align-items: flex-start; }
+.detail img { width: 250px; height: 250px; object-fit: cover; border-radius: 6px; }

@@ -2,6 +2,42 @@
 {% block section %}
 
 <h2>Product List</h2>
-<p>List of registered items.</p>
+<p>Total {{ total }} products</p>
+
+{% if total == 0 %}
+<p>No products yet. <a href="/reg_items">Register one!</a></p>
+{% else %}
+<table class="item-table">
+    {% for row in rows %}
+    <tr>
+        {% for item in row %}
+        <td class="item-card" onclick="location.href='/view_detail/{{ item.name }}'">
+            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            <p class="item-name">{{ item.name }}</p>
+            <p class="item-price">{{ item.price }} won</p>
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<nav class="pagination">
+    {% if page_arg > 1 %}
+    <a href="{{ url_for('view_list', page=page_arg - 1) }}">Prev</a>
+    {% endif %}
+
+    {% for p in range(1, total_pages + 1) %}
+        {% if p == page_arg %}
+        <b>{{ p }}</b>
+        {% else %}
+        <a href="{{ url_for('view_list', page=p) }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_arg < total_pages %}
+    <a href="{{ url_for('view_list', page=page_arg + 1) }}">Next</a>
+    {% endif %}
+</nav>
 
 {% endblock section %}

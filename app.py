@@ -20,9 +20,34 @@ def index():
 def view_list():
     return render_template("list.html")
 
-@app.route("/review")
-def view_review():
-    return render_template("review.html")
+# product list with pagination
+@app.route("/list")
+def view_list():
+    items = DB.get_items()          # list of product dicts
+    per_page = 6
+    per_row = 3
+
+    page = request.args.get("page", 1, type=int)
+    total_pages = max(1, (len(items) + per_page - 1) // per_page)
+    page = max(1, min(page, total_pages))
+
+    start = (page - 1) * per_page
+    page_items = items[start:start + per_page]
+
+    rows = []
+    for i in range(0, len(page_items), per_row):
+        rows.append(page_items[i:i + per_row])
+
+    return render_template("list.html", rows=rows,
+                           page_arg=page, total_pages=total_pages,
+                           total=len(items))
+
+
+# product detail (dynamic routing)
+@app.route("/view_detail/<name>")
+def view_item_detail(name):
+    data = DB.get_item_byname(str(name))
+    return render_template("detail.html", name=name, data=data)
 
 @app.route("/reg_items")
 def reg_item():
@@ -56,7 +81,8 @@ def signup():
         data = request.form
         pw_hash = hashlib.sha256(data["password"].encode("utf-8")).hexdigest()
         if DB.insert_user(data, pw_hash):
-            return render_template("login.html", message="Account created! Please log in.")
+            flash("Account created! Please log in.")
+            return redirect(url_for("login"))
         return render_template("signup.html", message="User ID already exists!")
     return render_template("signup.html")
 

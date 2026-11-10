@@ -57,6 +57,9 @@ class DBhandler:
 
 
     # ————— users —————
+    def get_item_byname(self, name):
+        return self.db.child("item").child(name).get().val()
+    
     def insert_user(self, data, pw):
         user_info = {
             "id": data["id"],
