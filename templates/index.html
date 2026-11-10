@@ -13,20 +13,33 @@
         <div class="navbar__logo">
             <a href="/">EwhaMarket</a>
         </div>
+
         <ul class="navbar__menu">
             <li><a href="/list">List</a></li>
             <li><a href="/review">Review</a></li>
             <li><a href="/reg_items">Register Items</a></li>
             <li><a href="/reg_reviews">Register Reviews</a></li>
-            <li><a href="/signup">Sign Up</a></li>
-            <li><a href="/login">Login</a></li>
+
+            {% if session.get("id") %}
+                <li>
+                    <a href="/logout">
+                        <b>Hello, {{ session["id"] }}!</b> logout
+                    </a>
+                </li>
+            {% else %}
+                <li><a href="/signup">Sign Up</a></li>
+                <li><a href="/login">Login</a></li>
+            {% endif %}
         </ul>
     </nav>
 
     <section class="container">
         {% block section %}
         <h2>Welcome to EwhaMarket</h2>
-        <p>Use the navigation links above to view products, reviews, or register items and reviews.</p>
+        <p>
+            Use the navigation links above to view products,
+            reviews, or register items and reviews.
+        </p>
         {% endblock section %}
     </section>
 
