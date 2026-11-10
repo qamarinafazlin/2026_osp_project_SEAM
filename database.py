@@ -9,7 +9,7 @@ class DBhandler:
         firebase = pyrebase.initialize_app(config)
         self.db = firebase.database()
 
-    # ---------- products ----------
+    # ————— products —————
     def insert_item(self, name, data, img_path):
         item_info = {
             "seller": data["seller_id"],
@@ -22,8 +22,41 @@ class DBhandler:
         self.db.child("item").child(name).set(item_info)
         print(data, img_path)
         return True
+    
+    # ————— get items —————
+    def get_items(self):
+        items = self.db.child("item").get()
+        products = []
 
-    # ---------- users ----------
+        if items.val() is None:
+            return products
+
+        for item in items.each():
+            name = item.key()
+            data = item.val()
+
+            if not isinstance(data, dict):
+                continue
+
+            products.append({
+                "id": name,
+                "name": name,
+                "country": data.get("country", "Unknown"),
+                "status": data.get("status", "On sale"),
+                "price": int(data.get("price", 0)),
+                "seller": data.get("seller", ""),
+                "pickup": data.get("addr", ""),
+                "email": data.get("email", ""),
+                "image_url": (
+                    "/static/images/" + data["img_path"]
+                    if data.get("img_path") else ""
+                )
+            })
+
+        return products
+
+
+    # ————— users —————
     def insert_user(self, data, pw):
         user_info = {
             "id": data["id"],
