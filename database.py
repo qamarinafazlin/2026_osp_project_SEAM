@@ -58,6 +58,19 @@ class DBhandler:
     def get_item_byname(self, name):
         return self.db.child("item").child(name).get().val()
 
+
+    # ————— likes —————
+    # stored as  heart / <user_id> / <product_name> : {"liked": true/false}
+    def get_heart(self, user_id, name):
+        heart = self.db.child("heart").child(user_id).child(name).get().val()
+        if heart is None:
+            return False
+        return heart.get("liked", False)
+
+    def set_heart(self, user_id, name, liked):
+        self.db.child("heart").child(user_id).child(name).set({"liked": bool(liked)})
+        return bool(liked)
+    
     # ————— reviews —————
     def insert_review(self, data, img_path, author):
         review_info = {

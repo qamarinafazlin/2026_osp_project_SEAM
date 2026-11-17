@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash, jsonify
 from database import DBhandler
 import hashlib
 import os
@@ -47,7 +47,19 @@ def view_item_detail(name):
     data = DB.get_item_byname(str(name))
     return render_template("detail.html", name=name, data=data)
 
+# like (AJAX): GET = load state, POST = save new state
+@app.route("/item_like/<name>", methods=["GET", "POST"])
+def item_like(name):
+    user_id = session.get("id")
+    if user_id is None:
+        return jsonify({"error": "Login required"}), 401
 
+    if request.method == "GET":
+        return jsonify({"liked": DB.get_heart(user_id, name)})
+
+    data = request.get_json()
+    saved = DB.set_heart(user_id, name, data["liked"])
+    return jsonify({"liked": saved})
 @app.route("/reg_items")
 def reg_item():
     return render_template("reg_items.html")

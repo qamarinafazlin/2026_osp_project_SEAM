@@ -37,3 +37,10 @@ form input, form select, form textarea { margin: 6px 0 12px; padding: 6px; }
 .review-form button { margin-top: 16px; padding: 10px 20px; cursor: pointer; }
 /* review detail page */
 .review-body { white-space: pre-line; line-height: 1.6; max-width: 600px; }
+
+/* like button */
+.detail-actions { display: flex; gap: 12px; margin-top: 20px; }
+.detail-actions .review-btn { margin-top: 0; }
+.like-btn { padding: 10px 20px; cursor: pointer; font-size: 1rem; background: white; border: 1px solid #ccc; border-radius: 4px; }
+.like-btn:disabled { cursor: default; opacity: 0.6; }
+.like-message { color: #c0392b; margin-top: 8px; }
