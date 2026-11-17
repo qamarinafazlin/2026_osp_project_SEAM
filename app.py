@@ -65,9 +65,35 @@ def reg_item_submit_post():
 
 
 # ---------- reviews ----------
+# review list with pagination (2*2 = 4 per page)
 @app.route("/review")
 def view_review():
-    return render_template("review.html")
+    reviews = list(DB.get_reviews().items())   # [(review_id, review), ...]
+    per_page = 4
+    per_row = 2
+
+    page = request.args.get("page", 1, type=int)
+    total_pages = max(1, (len(reviews) + per_page - 1) // per_page)
+    page = max(1, min(page, total_pages))
+
+    start = (page - 1) * per_page
+    page_reviews = reviews[start:start + per_page]
+
+    rows = []
+    for i in range(0, len(page_reviews), per_row):
+        rows.append(page_reviews[i:i + per_row])
+
+    return render_template("review.html", rows=rows,
+                           page_arg=page, total_pages=total_pages,
+                           total=len(reviews))
+
+
+# review detail (dynamic routing with the auto-generated key)
+@app.route("/view_review_detail/<review_id>")
+def view_review_detail(review_id):
+    review = DB.get_review_by_id(review_id)
+    return render_template("review_detail.html",
+                           review_id=review_id, review=review)
 
 
 # review writing page

@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{% block section %}
+
+{% if review %}
+<h2>{{ review.title }}</h2>
+
+<div class="detail">
+    <img src="/static/images/{{ review.img_path }}" alt="{{ review.title }}">
+
+    <table class="result">
+        <tr><th>Title</th><td>{{ review.title }}</td></tr>
+        <tr><th>Product</th>
+            <td><a href="/view_detail/{{ review.product_name }}">{{ review.product_name }}</a></td></tr>
+        <tr><th>Rating</th><td>{{ "★" * (review.rating | int) }}{{ "☆" * (5 - (review.rating | int)) }} ({{ review.rating }}/5)</td></tr>
+        <tr><th>Written by</th><td>{{ review.author }}</td></tr>
+    </table>
+</div>
+
+<h3>Review</h3>
+<p class="review-body">{{ review.body }}</p>
+{% else %}
+<h2>Review not found</h2>
+{% endif %}
+
+<p><a href="/review">← Back to reviews</a></p>
+
+{% endblock section %}

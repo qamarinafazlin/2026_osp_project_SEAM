@@ -72,6 +72,15 @@ class DBhandler:
         print(review_info)
         return True
 
+    def get_reviews(self):
+        reviews = self.db.child("review").get().val()
+        if reviews is None:
+            return {}
+        return reviews
+
+    def get_review_by_id(self, review_id):
+        return self.db.child("review").child(review_id).get().val()
+
     # ————— users —————
     def insert_user(self, data, pw):
         user_info = {

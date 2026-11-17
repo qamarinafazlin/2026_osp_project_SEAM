@@ -1,5 +1,4 @@
 {% extends "index.html" %}
-
 {% block section %}
 
 {% with mesg = get_flashed_messages() %}
@@ -8,14 +7,43 @@
     {% endif %}
 {% endwith %}
 
-<h1>Product Reviews</h1>
+<h2>Reviews</h2>
+<p>Total {{ total }} reviews · <a href="/reg_reviews">Write a review</a></p>
 
-<p>Read reviews and ratings shared by our users.</p>
+{% if total == 0 %}
+<p>No reviews yet.</p>
+{% else %}
+<table class="item-table">
+    {% for row in rows %}
+    <tr>
+        {% for review_id, review in row %}
+        <td class="item-card" onclick="location.href='/view_review_detail/{{ review_id }}'">
+            <img src="/static/images/{{ review.img_path }}" alt="{{ review.title }}">
+            <p class="item-name">{{ review.title }}</p>
+            <p class="item-price">{{ review.product_name }}</p>
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
 
-<div>
-    <h2>Share Your Experience</h2>
-    <p>Help other customers choose the right product.</p>
-    <a href="/reg_reviews">Register a Review</a>
-</div>
+<nav class="pagination">
+    {% if page_arg > 1 %}
+    <a href="{{ url_for('view_review', page=page_arg - 1) }}">Prev</a>
+    {% endif %}
+
+    {% for p in range(1, total_pages + 1) %}
+        {% if p == page_arg %}
+        <b>{{ p }}</b>
+        {% else %}
+        <a href="{{ url_for('view_review', page=p) }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_arg < total_pages %}
+    <a href="{{ url_for('view_review', page=page_arg + 1) }}">Next</a>
+    {% endif %}
+</nav>
 
 {% endblock section %}

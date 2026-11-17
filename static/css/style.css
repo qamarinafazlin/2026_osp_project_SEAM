@@ -35,3 +35,5 @@ form input, form select, form textarea { margin: 6px 0 12px; padding: 6px; }
 .review-form .rating { display: flex; gap: 16px; }
 .review-form .rating label { font-weight: normal; margin-top: 0; }
 .review-form button { margin-top: 16px; padding: 10px 20px; cursor: pointer; }
+/* review detail page */
+.review-body { white-space: pre-line; line-height: 1.6; max-width: 600px; }
