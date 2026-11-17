@@ -16,6 +16,11 @@
         <tr><th>Email</th><td>{{ data.email }}</td></tr>
     </table>
 </div>
+
+<button type="button" class="review-btn"
+        onclick="location.href='{{ url_for('reg_review', name=name) }}'">
+    Write a review
+</button>
 {% else %}
 <h2>Product not found</h2>
 {% endif %}

@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from database import DBhandler
 import hashlib
@@ -12,14 +11,13 @@ UPLOAD_FOLDER = os.path.join("static", "images")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
+# ---------- main ----------
 @app.route("/")
 def index():
     return render_template("index.html")
 
-@app.route("/list")
-def view_list():
-    return render_template("list.html")
 
+# ---------- products ----------
 # product list with pagination
 @app.route("/list")
 def view_list():
@@ -49,13 +47,10 @@ def view_item_detail(name):
     data = DB.get_item_byname(str(name))
     return render_template("detail.html", name=name, data=data)
 
+
 @app.route("/reg_items")
 def reg_item():
     return render_template("reg_items.html")
-
-@app.route("/reg_reviews")
-def reg_review():
-    return render_template("reg_reviews.html")
 
 
 # product registration -> saved to Firebase
@@ -69,11 +64,33 @@ def reg_item_submit_post():
     return render_template("result.html", data=data, img_path="images/" + filename)
 
 
-@app.route("/submit_review", methods=["POST"])
-def reg_review_submit():
+# ---------- reviews ----------
+@app.route("/review")
+def view_review():
     return render_template("review.html")
 
 
+# review writing page
+# /reg_reviews?name=apple -> product name is filled in
+@app.route("/reg_reviews")
+def reg_review():
+    name = request.args.get("name", "")
+    return render_template("reg_reviews.html", name=name)
+
+
+# review registration -> photo saved on server, review pushed to Firebase
+@app.route("/submit_review_post", methods=["POST"])
+def reg_review_submit_post():
+    data = request.form
+    image_file = request.files["photo"]
+    filename = image_file.filename
+    image_file.save(os.path.join(UPLOAD_FOLDER, filename))
+    DB.insert_review(data, filename, session.get("id", "guest"))
+    flash("Review registered!")
+    return redirect(url_for("view_review"))
+
+
+# ---------- users ----------
 # sign up -> saved to Firebase under "user", password hashed
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -86,17 +103,13 @@ def signup():
         return render_template("signup.html", message="User ID already exists!")
     return render_template("signup.html")
 
-# Login -> checks Firebase
+
+# login -> checks Firebase, remembers the user in the session
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         user_id = request.form["id"]
-        password = request.form["password"]
-
-        pw_hash = hashlib.sha256(
-            password.encode("utf-8")
-        ).hexdigest()
-
+        pw_hash = hashlib.sha256(request.form["password"].encode("utf-8")).hexdigest()
         user = DB.find_user(user_id, pw_hash)
 
         if user is None:
@@ -109,10 +122,10 @@ def login():
     return render_template("login.html")
 
 
-# Logout
+# logout -> clear session, back to main page
 @app.route("/logout")
 def logout():
-    session.pop("id", None)
+    session.clear()
     return redirect(url_for("index"))
 
 

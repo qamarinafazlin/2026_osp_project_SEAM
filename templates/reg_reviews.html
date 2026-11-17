@@ -1,34 +1,32 @@
 {% extends "index.html" %}
 {% block section %}
 
-<h2>Register Reviews</h2>
+<h2>Write a Review</h2>
 
-<form action="/submit_review" method="POST">
+<form action="/submit_review_post" method="post" enctype="multipart/form-data" class="review-form">
 
-    <label>Product name:</label>
-    <input type="text" name="product_name" required>
-    <br>
+    <label for="product_name">Product:</label>
+    <input type="text" id="product_name" name="product_name" value="{{ name }}" required>
 
-    <label>Reviewer ID:</label>
-    <input type="text" name="reviewer_id" required>
-    <br>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
 
-    <label>Rating:</label>
-    <select name="rating">
-        <option value="5">5</option>
-        <option value="4">4</option>
-        <option value="3">3</option>
-        <option value="2">2</option>
-        <option value="1">1</option>
-    </select>
-    <br>
+    <label for="review-body">Review:</label>
+    <textarea id="review-body" name="body" rows="5" required></textarea>
 
-    <label>Review:</label>
-    <br>
-    <textarea name="review" rows="4" cols="30" required></textarea>
-    <br>
+    <p>Rating:</p>
+    <div class="rating">
+        <label><input type="radio" name="rating" value="1" required> 1</label>
+        <label><input type="radio" name="rating" value="2"> 2</label>
+        <label><input type="radio" name="rating" value="3"> 3</label>
+        <label><input type="radio" name="rating" value="4"> 4</label>
+        <label><input type="radio" name="rating" value="5"> 5</label>
+    </div>
 
-    <input type="submit" value="Submit!">
+    <label for="photo">Photo:</label>
+    <input type="file" id="photo" name="photo" accept="image/*" required>
+
+    <button type="submit">Submit review</button>
 
 </form>
 

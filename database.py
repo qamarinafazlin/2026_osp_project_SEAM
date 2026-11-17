@@ -22,7 +22,7 @@ class DBhandler:
         self.db.child("item").child(name).set(item_info)
         print(data, img_path)
         return True
-    
+
     # ————— get items —————
     def get_items(self):
         items = self.db.child("item").get()
@@ -55,11 +55,24 @@ class DBhandler:
 
         return products
 
-
-    # ————— users —————
     def get_item_byname(self, name):
         return self.db.child("item").child(name).get().val()
-    
+
+    # ————— reviews —————
+    def insert_review(self, data, img_path, author):
+        review_info = {
+            "title": data["title"],
+            "product_name": data["product_name"],
+            "body": data["body"],
+            "rating": data["rating"],
+            "img_path": img_path,
+            "author": author,
+        }
+        self.db.child("review").push(review_info)
+        print(review_info)
+        return True
+
+    # ————— users —————
     def insert_user(self, data, pw):
         user_info = {
             "id": data["id"],

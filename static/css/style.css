@@ -26,3 +26,12 @@ form input, form select, form textarea { margin: 6px 0 12px; padding: 6px; }
 .pagination { margin-top: 20px; display: flex; gap: 10px; }
 .detail { display: flex; gap: 30px; align-items: flex-start; }
 .detail img { width: 250px; height: 250px; object-fit: cover; border-radius: 6px; }
+
+/* review writing page */
+.review-btn { margin-top: 20px; padding: 10px 20px; cursor: pointer; }
+.review-form { max-width: 500px; }
+.review-form label, .review-form p { display: block; margin-top: 12px; font-weight: bold; }
+.review-form input[type="text"], .review-form textarea { display: block; width: 100%; padding: 8px; }
+.review-form .rating { display: flex; gap: 16px; }
+.review-form .rating label { font-weight: normal; margin-top: 0; }
+.review-form button { margin-top: 16px; padding: 10px 20px; cursor: pointer; }
