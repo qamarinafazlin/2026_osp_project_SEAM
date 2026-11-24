@@ -1,5 +1,5 @@
 ---
-title: "Registering a Product and Review Lists"
+title: "Explanation for Ewha Market"
 ---
 ## Context
 
@@ -89,9 +89,6 @@ The screenshot shows a full page of four reviews arranged in a 2×2 grid in the 
 
 ![EwhaMarket Review List showing four reviews in a 2×2 grid](https://qamarinafazlin.github.io/2026_osp_project_SEAM/assets/images/review-2x2.png)
 
-## What We Learned
-
-We learned how HTML field names connect the registration form to the Flask handler and why Flask reads text fields and uploaded pictures separately. We also learned how pagination and layout work together. The Flask route selects up to four reviews for the current page and groups them into rows of two before passing them to the template.
 
 ## References
 
