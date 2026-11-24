@@ -1,5 +1,5 @@
 ---
-title: "Flask Development Tip: Using url_for() Instead of Hardcoded URLs"
+title: " Tip for our website"
 date: 2026-11-24
 ---
 
