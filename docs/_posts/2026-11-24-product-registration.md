@@ -1,14 +1,13 @@
 ---
-title: "Registering a Product"
+title: "Registering a Product and Review Lists"
 ---
-
 ## Context
 
-EwhaMarket is the website our team built in class for students who want to list snacks. I worked on the frontend of the Product Registration page. This page gives a seller a place to enter information about a product and choose a picture before submitting the listing. The registration process connects an HTML form, a Flask route, and the database.
+EwhaMarket is the website our team built in class for students who want to list snacks and share reviews. In this post, we explain how a seller submits a product listing and how EwhaMarket displays existing reviews. The registration form sends new product details and a picture to Flask, while the Review List loads saved reviews for users to browse.
 
 ## Goal
 
-The goal was to let a seller submit the product details and picture in one form and see the submitted information afterward. The form labels help the seller understand what to enter. The input names also matter because the Flask handler uses them to identify the values that arrive from the browser.
+The Product Registration page lets sellers submit listing details and a picture in one form and see the result after submitting it. The Review List helps users browse existing reviews by showing up to four at a time and linking each entry to its detail page.
 
 ## Steps
 
@@ -55,10 +54,44 @@ The `data` argument gives the template access to the submitted text. The `img_pa
 ## Result
 
 The registration flow starts with the product form and ends with a page showing the submitted listing details and picture. For example, a seller can enter a snack's name and price, choose a photo, and check those details on the result page after submitting the form.
+## How the Review List Works
+
+The Review List lets users browse reviews that have already been submitted to EwhaMarket. When a user opens `/review`, Flask calls `DB.get_reviews()` to load the review records. Each record has a review ID and its associated data. The list page uses that ID to link to the individual review.
+
+### Select the reviews for the current page
+
+The route uses two settings to control how many reviews appear on each page and how they are arranged.
+
+```python
+reviews = list(DB.get_reviews().items())
+per_page = 4
+per_row = 2
+```
+
+`per_page` limits each page to four reviews. `per_row` tells the route to group the selected reviews into rows of two. These settings control different parts of the display. The first determines which records are included on a page, and the second determines how those records are arranged.
+
+The route reads the `page` query parameter from the URL. For example, `/review?page=2` requests the second page. If there are enough reviews, the route skips the first four and selects the next four.
+
+```python
+start = (page - 1) * per_page
+page_reviews = reviews[start:start + per_page]
+```
+
+For page two, `start` is `4`, so the slice starts at the fifth review. The route then groups the selected records into rows and passes them to the review template. A full page has two rows of two reviews. If the final page has only one review left, the slice returns that one record.
+
+### Open an individual review
+
+When a user selects a review, the browser opens `/view_review_detail/<review_id>`. Flask calls `DB.get_review_by_id(review_id)` and passes the result to `review_detail.html`. The list page gives users a way to browse several entries, and the detail page displays the selected review.
+
+### Review List Result
+
+The screenshot shows a full page of four reviews arranged in a 2×2 grid in the in-class EwhaMarket website.
+
+![EwhaMarket Review List showing four reviews in a 2×2 grid](https://qamarinafazlin.github.io/2026_osp_project_SEAM/assets/images/review-2x2.png)
 
 ## What We Learned
 
-I learned how the frontend form and the Flask handler share responsibility for registration. The form's `name` attributes determine how the server finds the submitted values. Looking at the route also helped me understand why an uploaded image and a text field are handled separately, even when the user submits them together.
+We learned how HTML field names connect the registration form to the Flask handler and why Flask reads text fields and uploaded pictures separately. We also learned how pagination and layout work together. The Flask route selects up to four reviews for the current page and groups them into rows of two before passing them to the template.
 
 ## References
 
