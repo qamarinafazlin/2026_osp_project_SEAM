@@ -1,5 +1,5 @@
 ---
-title: How Product Registration Works in Snack Passport
+title: Registering a Product
 ---
 
 # How Product Registration Works in Snack Passport
