@@ -83,7 +83,7 @@ Once `session["id"]` is set on login, `index.html` can display `Hello, {{ sessio
 
 ## Result
 <img width="1100" height="760" alt="detail-not-liked" src="https://github.com/user-attachments/assets/39c25857-2bd1-4c2b-9ab3-0351ee5ea97f" />
-**The product detail page before liking**
+The product detail page before liking
 
 Together, `@app.route()`, `request.args` / `request.form`, `render_template()` with `url_for()`, and `session` let EwhaMarket serve multi-page views, pass data cleanly between routes and HTML templates, and keep user login state across pages.
 
