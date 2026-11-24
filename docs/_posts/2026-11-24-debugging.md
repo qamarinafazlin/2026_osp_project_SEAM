@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Debugging our website"
+title: "Debugging for Ewha Market"
 date: 2026-11-24
 ---
 
