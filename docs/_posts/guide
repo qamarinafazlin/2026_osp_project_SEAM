@@ -1,0 +1,199 @@
+---
+layout: post
+title: "Guideline for Ewha Market"
+date: 2026-11-24
+---
+
+**Category:** Guide  
+**Project:** EwhaMarket  
+**Team:** SEAM  
+**Technologies:** Python, Flask, Pyrebase4, Firebase Realtime Database, Windows PowerShell
+
+## Context
+
+EwhaMarket runs on **Flask** and stores its products, users, reviews and likes in a **Firebase Realtime Database**. Python talks to Firebase through a library called **Pyrebase4**.
+
+We first set up the project on a Mac, but when we opened it on a Windows laptop, almost every command failed. `source` didn't exist, PowerShell refused to run scripts, and Python couldn't find Flask. This guide covers everything we needed to get EwhaMarket running on Windows, in order.
+
+## Goal
+
+By the end of this guide you will:
+
+1. Have a virtual environment with Flask and Pyrebase4 installed
+2. Have your Firebase config saved safely (not uploaded to GitHub)
+3. Have tested the Firebase connection
+4. Have the website running at `http://127.0.0.1:5000`
+
+## Steps
+
+### 1. Install Python and Git
+
+- **Python:** download it from [python.org](https://www.python.org/downloads/). On the first screen of the installer, tick **"Add python.exe to PATH"** before clicking Install. If you skip this, PowerShell won't recognize the `python` command.
+- **Git:** download it from [git-scm.com](https://git-scm.com/).
+
+Close and reopen PowerShell after installing, then check both:
+
+```powershell
+python --version
+git --version
+```
+
+If `python` opens the Microsoft Store instead, Python isn't on your PATH. Reinstall it with the checkbox ticked.
+
+### 2. Get the project
+
+```powershell
+cd C:\Users\<your-name>\project
+git clone https://github.com/qamarinafazlin/2026_osp_project_SEAM.git
+cd 2026_osp_project_SEAM
+```
+
+### 3. Create a virtual environment
+
+A virtual environment (`venv`) keeps this project's packages separate from the rest of your computer.
+
+```powershell
+python -m venv venv
+```
+
+This creates a `venv` folder. You only need to do this once per computer. The folder is listed in `.gitignore`, so every teammate creates their own.
+
+### 4. Turn on the virtual environment
+
+This is where Windows is different from Mac:
+
+| | Mac | Windows |
+|---|---|---|
+| Create venv | `python3 -m venv venv` | `python -m venv venv` |
+| Turn it on | `source venv/bin/activate` | `venv\Scripts\activate` |
+| Turn it off | `deactivate` | `deactivate` |
+
+```powershell
+venv\Scripts\activate
+```
+
+When it works, `(venv)` appears at the start of the line.
+
+**If you get "running scripts is disabled on this system":** PowerShell blocks scripts by default, including the venv's `Activate.ps1`. Allow scripts for your own user account (you only need to do this once), then activate again:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+venv\Scripts\activate
+```
+
+Type `Y` if it asks. `RemoteSigned` lets scripts created on your own computer run, while scripts downloaded from the internet still need a signature. If you'd rather not change the policy, open **Command Prompt** (`cmd`) instead of PowerShell; `venv\Scripts\activate` works there without it.
+
+### 5. Install Flask and Pyrebase4
+
+With `(venv)` showing:
+
+```powershell
+pip install flask pyrebase4
+```
+
+Check that both are installed:
+
+```powershell
+pip list
+```
+
+You should see `Flask` and `Pyrebase4` in the list. Note that the package is installed as `pyrebase4`, but in Python code you import it as `pyrebase`.
+
+### 6. Add your Firebase config
+
+In the Firebase console, open **Project settings** (⚙️) → **Your apps** → **Config**. Copy the `firebaseConfig` values.
+
+Create a folder called `authentication` in the project (same level as `app.py`) and a file inside it called `firebase_auth.json`:
+
+```text
+2026_osp_project_SEAM/
+├── authentication/
+│   └── firebase_auth.json
+├── app.py
+└── database.py
+```
+
+The Firebase console gives you JavaScript, but this file must be **JSON**, so put double quotes around every key and remove `const firebaseConfig =` and the final `;`:
+
+```json
+{
+  "apiKey": "AIza...",
+  "authDomain": "your-project.firebaseapp.com",
+  "databaseURL": "https://your-project-default-rtdb.asia-southeast1.firebasedatabase.app",
+  "projectId": "your-project",
+  "storageBucket": "your-project.firebasestorage.app",
+  "messagingSenderId": "123...",
+  "appId": "1:123...:web:abc..."
+}
+```
+
+Make sure `databaseURL` is included. If the copied config doesn't have it, copy the URL from the top of **Realtime Database → Data**.
+
+### 7. Keep the config out of GitHub
+
+Add this line to `.gitignore` **before** you commit anything:
+
+```text
+authentication/
+```
+
+Then run `git status`. The `authentication` folder should **not** appear in the list. In VS Code, it shows up greyed out in the Explorer.
+
+### 8. Test the connection
+
+Create `test_firebase.py` in the project folder:
+
+```python
+import json
+import pyrebase
+
+with open("authentication/firebase_auth.json") as f:
+    config = json.load(f)
+
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
+db.child("test").set({"message": "hello firebase"})
+print(db.child("test").get().val())
+```
+
+Run it:
+
+```powershell
+python test_firebase.py
+```
+
+If you see `OrderedDict({'message': 'hello firebase'})`, Python is connected to Firebase. `OrderedDict` is just the type Pyrebase returns; it holds the same data as a normal dictionary. You can delete the `test` node in the Firebase console afterwards.
+
+### 9. Run the website
+
+```powershell
+python app.py
+```
+
+Wait for `Running on http://127.0.0.1:5000`, then open that address in your browser. Press `Ctrl+C` in the terminal to stop the server.
+
+**Every time after this**, you only need:
+
+```powershell
+cd C:\Users\<your-name>\project\2026_osp_project_SEAM
+git pull
+venv\Scripts\activate
+python app.py
+```
+
+## Common Errors
+
+| Error | Cause | Fix |
+|---|---|---|
+| `source : The term 'source' is not recognized` | That's the Mac command | Use `venv\Scripts\activate` |
+| `running scripts is disabled on this system` | PowerShell's execution policy | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`, or use `cmd` |
+| `ModuleNotFoundError: No module named 'flask'` or `'pyrebase'` | The venv isn't on, or the package isn't installed in it | `venv\Scripts\activate`, then `pip install flask pyrebase4` |
+| Still `ModuleNotFoundError` with `(venv)` showing | `pip` installed into a different Python | `python -m pip install pyrebase4` |
+| `FileNotFoundError: ...firebase_auth.json` | The file is missing on this computer, or you're in the wrong folder | Create it (it isn't on GitHub), and `cd` into the project folder |
+| `JSONDecodeError` | The config is still in JavaScript format | Quotes on every key, no `const`, no trailing `;` or comma |
+| `Address already in use` | Another server is still running | Close the old terminal, or use `app.run(debug=True, port=5001)` |
+
+## Result
+
+EwhaMarket now runs on Windows the same way it does on Mac. The only real differences were the activate command and PowerShell's script policy, but each one stopped the setup completely until we understood it.
+
