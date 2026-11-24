@@ -87,8 +87,4 @@ The product detail page before liking
 
 Together, `@app.route()`, `request.args` / `request.form`, `render_template()` with `url_for()`, and `session` let EwhaMarket serve multi-page views, pass data cleanly between routes and HTML templates, and keep user login state across pages.
 
-## What I Learned
-Working on `app.py` and the HTML templates showed me how clean a Flask app becomes when you separate URL routing, database access (`DBhandler`), and Jinja2 presentation. I also learned how `url_for()` keeps links tied to function names rather than hard-coded strings, and how `session` bridges the gap between logging in once and using features like liking items or submitting reviews.
 
-## References
-* Flask Documentation: [Routing](https://flask.palletsprojects.com/en/stable/quickstart/#routing), [Rendering Templates](https://flask.palletsprojects.com/en/stable/quickstart/#rendering-templates), and [Sessions](https://flask.palletsprojects.com/en/stable/quickstart/#sessions)
