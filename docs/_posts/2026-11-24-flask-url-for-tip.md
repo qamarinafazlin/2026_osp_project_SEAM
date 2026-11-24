@@ -1,5 +1,5 @@
 ---
-title: " Tip for Our Website"
+title: " Tip for Ewha Market"
 date: 2026-11-24
 ---
 
