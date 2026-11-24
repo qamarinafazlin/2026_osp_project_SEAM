@@ -1,5 +1,7 @@
 ---
+layout: post
 title: "Understanding Flask: How Routes, Sessions, and Jinja2 Templates Work Together in EwhaMarket"
+date: 2026-11-24
 ---
 
 ## Context
