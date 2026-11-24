@@ -6,7 +6,7 @@ date: 2026-11-24
 **Category:** Tip  
 **Project:** EwhaMarket  
 **Team:** SEAM  
-**Technologies:** Python, Flask, HTML, Jinja2
+**Technologies:** Python, Flask, HTML
 
 ## 1. Introduction
 
