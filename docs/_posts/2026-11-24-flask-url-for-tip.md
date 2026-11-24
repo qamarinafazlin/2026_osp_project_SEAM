@@ -1,5 +1,5 @@
 ---
-title: " Tip for our website"
+title: " Tip for Our Website"
 date: 2026-11-24
 ---
 
