@@ -12,6 +12,8 @@ When a web app has separate pages for viewing products (`/list`), opening produc
 
 ## Steps
 
+{% raw %}
+
 ### 1. Static and Dynamic Routes (`@app.route`)
 In `app.py`, `@app.route(...)` maps URLs to Python view functions. Some routes use fixed paths like `/list` or `/reg_reviews`, while others use angle brackets like `<name>` or `<review_id>` to capture dynamic values straight from the URL.
 
@@ -76,6 +78,8 @@ def login():
 ```
 
 Once `session["id"]` is set on login, `index.html` can display `Hello, {{ session["id"] }}!` and a logout link, `detail.html` can check whether `session.get("id")` already liked an item, `/toggle_like/<name>` can require a logged-in user, and `/logout` can clear the session with `session.clear()`.
+
+{% endraw %}
 
 ## Result
 <img width="1100" height="760" alt="detail-not-liked" src="https://github.com/user-attachments/assets/39c25857-2bd1-4c2b-9ab3-0351ee5ea97f" />
