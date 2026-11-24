@@ -7,7 +7,7 @@ date: 2026-11-24
 **Category:** Debugging  
 **Project:** EwhaMarket  
 **Team:** SEAM  
-**Technologies:** Python, Flask, Jinja2, HTML
+**Technologies:** Python, Flask, HTML
 
 ## Context
 
