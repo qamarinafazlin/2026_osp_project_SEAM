@@ -1,57 +1,66 @@
 ---
-title: Registering a Product
+title: "Registering a Product"
 ---
-
-# How Product Registration Works
 
 ## Context
 
-Snack Passport is a team web project where users can list snacks and share reviews. I worked on the frontend of the Product Registration page. This page is where a user enters the information that other people need to understand a listing, such as the snack’s name, price, and availability. The challenge was to organize those details into a form that users could fill out easily and that the Flask backend could process.
+EwhaMarket is the website our team built in class for students who want to list snacks. I worked on the frontend of the Product Registration page. This page gives a seller a place to enter information about a product and choose a picture before submitting the listing. The registration process connects an HTML form, a Flask route, and the database.
 
 ## Goal
 
-The goal was to let users enter the details for a snack listing and submit them through one form. The page needed to show what each field was for and keep the same header and navigation as the rest of Snack Passport. It also needed to handle both written information and a product image.
+The goal was to let a seller submit the product details and picture in one form and see the submitted information afterward. The form labels help the seller understand what to enter. The input names also matter because the Flask handler uses them to identify the values that arrive from the browser.
 
 ## Steps
 
-### 1. Open the registration page
+### 1. Open the registration form
 
-When the user opens `/reg_items`, Flask renders the `register_product.html` template. The template uses the shared page layout for the header and navigation. The registration form itself belongs to the page-specific template. This structure lets us change the fields or the form layout without editing the navigation on every page.
+The registration page is available at `/reg_items`. When a user opens this address, Flask renders the `reg_items.html` template.
 
-### 2. Fill in the product details
-
-The form groups information about the snack and the seller. For example, the product name identifies the snack, the price tells other users how much it costs, and the status shows whether it is available. The email field provides a way to contact the seller. The photo field lets the seller add an image so other users can recognize the product.
-
-Each input needs a label for the user and a `name` attribute for the server. The following simplified example shows how a form can send a product name and a photo together.
-
-```html
-<form method="post" enctype="multipart/form-data">
-  <label for="product-name">Product name</label>
-  <input id="product-name" name="name" type="text" required>
-
-  <label for="product-photo">Product photo</label>
-  <input id="product-photo" name="photo" type="file" accept="image/*">
-
-  <button type="submit">Register product</button>
-</form>
+```python
+@app.route("/reg_items")
+def reg_item():
+    return render_template("reg_items.html")
 ```
 
-The `for` attribute connects each label to its input. The browser uses `method="post"` to submit the form, and `multipart/form-data` lets it include the selected image in the same request as the text fields.
+This route handles opening the form. Once the form appears, the user can fill in the product details and select a picture. Submitting the form sends a separate `POST` request to `/result`.
 
-### 3. Send the form to Flask
+### 2. Read and save the submitted information
 
-When the user clicks **Register product**, the browser sends the form to the server. In Flask, the submission handler can read text fields through `request.form` and uploaded files through `request.files`. It identifies each value by the input’s `name` rather than the label the user sees. For example, a field named `photo` must be retrieved using that same name. Matching those names is especially important when different team members work on the template and the Python handler.
+The `/result` handler reads the text fields and the picture from different parts of the request. The following lines show how the handler receives those values and saves the listing.
+
+```python
+data = request.form
+image_file = request.files["picture"]
+filename = image_file.filename
+image_file.save(os.path.join(UPLOAD_FOLDER, filename))
+DB.insert_item(data["product_name"], data, filename)
+```
+
+`request.form` contains the submitted text values. `request.files["picture"]` gives Flask the uploaded image file. The handler saves the image to the server's upload folder, then passes the product name, form data, and image filename to `DB.insert_item()` to store the listing in Firebase.
+
+### 3. Display the result
+
+After saving the listing, Flask renders the result template with the submitted values and the path to the uploaded image.
+
+```python
+return render_template(
+    "result.html",
+    data=data,
+    img_path="images/" + filename
+)
+```
+
+The `data` argument gives the template access to the submitted text. The `img_path` argument tells the template where to find the picture. This gives the seller a result page where they can see the information they just entered.
 
 ## Result
 
-The Product Registration page provides a single form for entering product and seller details and choosing a photo. The labels guide users through the form, and the submit button marks the final step.
+The registration flow starts with the product form and ends with a page showing the submitted listing details and picture. For example, a seller can enter a snack's name and price, choose a photo, and check those details on the result page after submitting the form.
 
-<!-- Add a screenshot of the Product Registration page here. -->
-<img width="1307" height="803" alt="image" src="https://github.com/user-attachments/assets/45547ac8-d48b-4112-a793-f548455ce126" />
+## What We Learned
 
-information, and the Flask handler needs to read that information using the same field names. Working on this page helped me understand how a frontend template and a backend route work together during form submission.
+I learned how the frontend form and the Flask handler share responsibility for registration. The form's `name` attributes determine how the server finds the submitted values. Looking at the route also helped me understand why an uploaded image and a text field are handled separately, even when the user submits them together.
 
 ## References
 
-- Open Software Platform, Lecture 11, *Web Application*
-- [Snack Passport project repository](https://github.com/qamarinafazlin/2026_osp_project_SEAM)
+- [EwhaMarket Flask routes](https://github.com/qamarinafazlin/2026_osp_project_SEAM/blob/main/app.py)
+- [Product registration template](https://github.com/qamarinafazlin/2026_osp_project_SEAM/blob/main/templates/reg_items.html)
