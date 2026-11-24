@@ -7,7 +7,7 @@ date: 2026-11-24
 ## Context
 While building the **EwhaMarket** web application in, we used **Flask** together with HTML templates to handle navigation, product and review pages, form submissions, and user login state. Because HTTP requests are stateless by default, I wanted a clear understanding of how Flask connects URLs to Python functions, passes context into templates, and remembers who is logged in across pages.
 
-## Problem or Goal
+## Problem and Goal
 When a web app has separate pages for viewing products, opening product details, logging in, and liking items, it is easy to lose track of how data moves between the server and the browser. The goal of this post is to explain three core Flask concepts—**routing (including dynamic URLs)**, **template rendering with Jinja2**, and **user sessions**—using real examples from `app.py` and our templates.
 
 ## Steps
@@ -83,7 +83,7 @@ Once `session["id"]` is set on login, `index.html` can display `Hello, {{ sessio
 
 ## Result
 <img width="1100" height="760" alt="detail-not-liked" src="https://github.com/user-attachments/assets/39c25857-2bd1-4c2b-9ab3-0351ee5ea97f" />
-The product detail page before liking
+**The product detail page before liking**
 
 Together, `@app.route()`, `request.args` / `request.form`, `render_template()` with `url_for()`, and `session` let EwhaMarket serve multi-page views, pass data cleanly between routes and HTML templates, and keep user login state across pages.
 
