@@ -116,13 +116,6 @@ However, developers must ensure that endpoint names and required parameters are 
 
 Replacing the remaining hardcoded navigation links would further improve the consistency of our application.
 
-## 7. What I Learned
-
-Through this project, I learned that small development techniques can make a significant difference in code organization.
-
-Using `url_for()` helps separate navigation logic from fixed URL paths and reduces unnecessary dependencies between HTML templates and Flask routes.
-
-This is a useful practice for beginners developing Flask applications, especially when working collaboratively on a website with multiple connected features.
 
 ## References
 
